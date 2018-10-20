@@ -1,0 +1,274 @@
+doctype html
+html(lang='ko')
+  head
+    meta(charset='utf-8')
+    title CSS Tutorial | Layout
+    style.
+      #yj-container {
+      width: 940px;
+      margin: 0px auto;
+      padding: 20px;
+      border: 1px solid #bcbcbc;
+      }
+      #yj-header {
+      height: 30px;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #bcbcbc;
+      }
+      #yj-content {
+      height: 630px;
+      width: 200px;
+      padding: 20px;
+      margin-bottom: 20px;
+      float: left;
+      border: 1px solid #bcbcbc;
+      }
+      #a1 {
+      width: 640px;
+      height: 400px;
+      margin: 0px auto;
+
+      }
+      #yj-sidebar {
+      width: 640px;
+      height: 200px;
+      padding: 20px;
+      margin-bottom: 20px;
+      float: right;
+      border: 1px solid #bcbcbc;
+      }
+      #yj-savebar {
+      width: 640px;
+      height: 365px;
+      padding: 20px;
+      margin-bottom: 20px;
+      float: right;
+      border: 1px solid #bcbcbc;
+      }
+
+      #yj-footer {
+      clear: both;
+      padding: 20px;
+      border: 1px solid #bcbcbc;
+      }
+
+      h1{
+      clear: both;
+      padding: 0px;
+      height: 30px;
+      margin: 0px auto;
+      }
+
+      chart_div{
+      width: 640px;
+      height: 400px;
+      margin: 0px auto;
+      }
+
+      .sidebarmenu ul{
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      font: bold 13px Verdana;
+      width: 180px; /* Main Menu Item widths */
+      border-bottom: 1px solid #ccc;
+      }
+
+      .sidebarmenu ul li{
+      position: relative;
+      }
+      .sidebarmenu ul li a{
+      display: block;
+      overflow: auto; /*force hasLayout in IE7 */
+      color: white;
+      text-decoration: none;
+      padding: 6px;
+      border-bottom: 1px solid #778;
+      border-right: 1px solid #778;
+      }
+      .sidebarmenu ul li a:link, .sidebarmenu ul li a:visited, .sidebarmenu ul li a:active{
+      background-color: #012D58; /*background of tabs (default state)*/
+      }
+
+      .sidebarmenu ul li a:visited{
+      color: white;
+      }
+
+      .sidebarmenu ul li a:hover{
+      background-color: black;
+      }
+
+      .sidebarmenu ul li ul{
+      position: absolute;
+      width: 170px; /*Sub Menu Items width */
+      top: 0;
+      visibility: hidden;
+      }
+
+      .sidebarmenu a.subfolderstyle{
+      background: url(right.gif) no-repeat 97% 50%;
+      }
+      
+      .ddd {
+      width: 100px;
+      height: 30px;
+      margin: 0px;
+      }
+
+
+
+
+  body
+    #yj-container.yj-container
+      #yj-header
+       h1 Search Log Chart
+      #yj-content
+       .sidebarmenu
+        ul#sidebarmenu
+         li
+          a(href='/search/category' id='category') 카테고리
+         li
+          a(href='/search/country') 국가
+         li
+          a(href='/search/daily') 일간
+          ul
+           li
+            a(href='#') Sub Item 1.1
+           li
+            a(href='#') Sub Item 1.2
+         li
+          a(href='/search/topmember') 상위이용자
+         li
+          a(href='/search/server') 서버
+         li
+          a(href='/search/service') 서비스
+
+
+
+
+      #yj-sidebar
+        h2 Category 조건
+        ul
+          |설정일
+          |                
+          input#inDate.inDate(type='text', value='2017-01-01') 
+          | 
+          | ~
+          | 
+          input#outDate.outDate(type='text', value='2017-06-30')
+          p
+          select(name='service')#service
+           option(value='ALL', selected='selected') 서비스전체
+           option(value='WO') WIPSON
+           option(value='WT') WINTELIPS
+           option(value='WG') WIPSGLOBAL
+           option(value='WC') WIPSGLOBAL_CHINA
+           option(value='SK') SK_HEMIAN
+          | 
+          | 
+          | 
+          select(name='country')#country
+           option(value='ALL', selected='selected') 국가전체
+           option(value='EP') EP
+           option(value='JP') JP
+           option(value='KR') KR
+           option(value='US') US
+          p
+          button#btn-show-checked 선택된 항목 확인
+
+          link(rel='stylesheet', href='http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css', type='text/css')
+          script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
+          script(src='//code.jquery.com/jquery.min.js')
+          script(src='https://code.jquery.com/jquery-1.12.4.js')
+          script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+          script.
+           $(function() {
+             $( "#inDate" ).datepicker( { dateFormat: "yy-mm-dd" } );
+             $( "#outDate" ).datepicker( { dateFormat: "yy-mm-dd" } );
+             $("#btn-show-checked").click(function() {
+              alert( $("select[name=country]").val() );
+            });
+           });
+
+          p
+          button#ajaxsend.ajaxsend(value=1) 출력
+          li#liDate 
+
+          script(type='text/javascript' src='https://www.google.com/jsapi')
+          script(type='text/javascript' src='https://www.gstatic.com/charts/loader.js')
+          script(type='text/javascript').
+           var composite = {
+            inputDate:'',
+            outputDate:'',
+            country:'',
+            service:'',
+            okFlag : '1'
+           }
+           var arrResult = new Array();
+           var result;
+           var chartData;
+           var as = document.getElementById("ajaxsend")
+           if(as){
+           as.addEventListener('click', function(){
+            composite.inputDate = document.getElementById("inDate").value;
+            composite.outputDate = document.getElementById("outDate").value;
+            composite.country = document.getElementById("country").value;
+            composite.service = document.getElementById("service").value;
+            liDate.innerHTML = composite.inputDate;
+            sendAjax('http://203.236.86.149:8180/search/category', composite);
+           });
+           }
+           function sendAjax(url, composite){
+            arrResult = new Array();
+            var data = {inDate:composite.inputDate, outDate:composite.outputDate, okFlag:composite.okFlag, country:composite.country, service:composite.service};
+            data = JSON.stringify(data);
+            liDate.innerHTML = data;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url);
+            xhr.setRequestHeader('Content-type', "application/json");
+            xhr.send(data);
+            xhr.addEventListener('load', function(){
+             result = JSON.parse(xhr.responseText);
+             console.log(xhr.responseText);
+             for(var i=0; i<result.length; i += 1){
+              arrResult[i] = new Array(2);
+             }
+             chartData = "['category','count']";
+             for(var i=0; i<result.length; i++){
+              arrResult[i][0] = result[i].c_num;
+              arrResult[i][1] = parseInt(result[i].count);
+              chartData += arrResult[i];
+             }
+             console.log( result);
+             google.charts.load('current', {'packages':['corechart']});
+             google.charts.setOnLoadCallback(drawChart);
+            });
+      
+           }
+
+           function drawChart(){		
+            var data;
+            arrResult.unshift(['Category','count']);
+            data = google.visualization.arrayToDataTable(  arrResult
+             );
+            console.log(arrResult);
+            var options = {
+             title: 'CATEGORY CHART',
+             chartArea : {width:'70%',height:'70%'},
+             width : 640,
+             height : 400,
+             role : 'annotation',
+             bar: {groupWidth: '95%'},
+             pieSliceTextStyle : { fontSize : 15},
+             hAxis: {title: 'category', titleTextStyle: {color:'red'}}
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+           }
+
+      .yj-savebar#yj-savebar
+          article#a1
+             #chart_div.chart_div
+      #yj-footer
+        p Copyright
