@@ -1,0 +1,441 @@
+doctype html
+html(lang='ko')
+  head
+    meta(charset='utf-8')
+    title CSS Tutorial | Layout
+    style.
+      #yj-container {
+      width: 940px;
+      margin: 0px auto;
+      padding: 20px;
+      border: 1px solid #bcbcbc;
+      }
+      #yj-header {
+      height: 30px;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #bcbcbc;
+      }
+      #yj-content {
+      height: 630px;
+      width: 200px;
+      padding: 20px;
+      margin-bottom: 20px;
+      float: left;
+      border: 1px solid #bcbcbc;
+      }
+      #a1 {
+      width: 640px;
+      height: 400px;
+      margin: 0px auto;
+
+      }
+      #yj-sidebar {
+      width: 640px;
+      height: 200px;
+      padding: 20px;
+      margin-bottom: 20px;
+      float: right;
+      border: 1px solid #bcbcbc;
+      }
+      #yj-savebar {
+      width: 640px;
+      height: 365px;
+      padding: 20px;
+      margin-bottom: 20px;
+      float: right;
+      border: 1px solid #bcbcbc;
+      }
+
+      #yj-footer {
+      clear: both;
+      padding: 20px;
+      border: 1px solid #bcbcbc;
+      }
+      h1{
+      clear: both;
+      padding: 0px;
+      height: 30px;
+      margin: 0px auto;
+      }
+      .sidebarmenu ul{
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      font: bold 13px Verdana;
+      width: 180px; /* Main Menu Item widths */
+      border-bottom: 1px solid #ccc;
+      }
+
+      .sidebarmenu ul li{
+      position: relative;
+      }
+      .sidebarmenu ul li a{
+      display: block;
+      overflow: auto; /*force hasLayout in IE7 */
+      color: white;
+      text-decoration: none;
+      padding: 6px;
+      border-bottom: 1px solid #778;
+      border-right: 1px solid #778;
+      }
+      .sidebarmenu ul li a:link, .sidebarmenu ul li a:visited, .sidebarmenu ul li a:active{
+      background-color: #012D58; /*background of tabs (default state)*/
+      }
+
+      .sidebarmenu ul li a:visited{
+      color: white;
+      }
+
+      .sidebarmenu ul li a:hover{
+      background-color: black;
+      }
+
+      .sidebarmenu ul li ul{
+      position: absolute;
+      width: 170px; /*Sub Menu Items width */
+      top: 0;
+      visibility: hidden;
+      }
+
+      .sidebarmenu a.subfolderstyle{
+      background: url(right.gif) no-repeat 97% 50%;
+      }
+      
+      .ddd {
+      width: 100px;
+      height: 30px;
+      margin: 0px;
+      }
+
+
+
+
+  body
+    #yj-container.yj-container
+      #yj-header
+       h1 Search Log Chart
+      #yj-content
+       .sidebarmenu
+        ul#sidebarmenu
+         li
+          a(href='/search/category' id='category') 카테고리
+         li
+          a(href='/search/country') 국가
+         li
+          a(href='/search/daily') 일간
+          ul
+           li
+            a(href='#') Sub Item 1.1
+           li
+            a(href='#') Sub Item 1.2
+         li
+          a(href='/search/topmember') 상위이용자
+         li
+          a(href='/search/server') 서버
+         li
+          a(href='/search/service') 서비스
+
+
+
+      #yj-sidebar
+        | Country 
+        ul
+          |설정일
+          |                
+          input#inDate.inDate(type='text' value='2017-01-01') 
+          | 
+          | ~
+          | 
+          input#outDate.outDate(type='text' value='2017-06-30')
+          p
+          input(type='checkbox', value='ALL', id='country_all' )
+          | 전체선택
+          p
+           | 
+           |        
+           |              
+          input(type='checkbox', name='country', value='KR', id='KR')
+          |  KR
+          input(type='checkbox', name='country', value='KPA', id='KPA')
+          |  KPA
+          input(type='checkbox', name='country', value='US', id='US')
+          |  US
+          input(type='checkbox', name='country', value='EP', id='EP')
+          |  EP
+          input(type='checkbox', name='country', value='JP', id='JP')
+          |  JP
+          input(type='checkbox', name='country', value='PAJ', id='PAJ')
+          |  PAJ
+          input(type='checkbox', name='country', value='10CTR', id='10CTR')
+          |  10CTR
+          input(type='checkbox', name='country', value='CN', id='CN')
+          |  CN
+          input(type='checkbox', name='country', value='LN', id='LN')
+          |  LN
+          input(type='checkbox', name='country', value='DOCDB', id='DOCDB')
+          |  DOCDB
+          input(type='checkbox', name='country', value='INDIA', id='INDIA')
+          |  IN
+          input(type='checkbox', name='country', value='PCT', id='PCT')
+          |  PCT
+          p
+          select(name='service')#service
+           option(value='ALL', selected='selected') 서비스전체
+           option(value='WO') WIPSON
+           option(value='WT') WINTELIPS
+           option(value='WG') WIPSGLOBAL
+           option(value='WC') WIPSGLOBAL_CHINA
+           option(value='SK') SK_HYNIX
+          | 
+          p
+
+          link(rel='stylesheet', href='http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css', type='text/css')
+          script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
+          script(src='http://code.jquery.com/jquery.min.js')
+          script(src='https://code.jquery.com/jquery-1.12.4.js')
+          script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+          script.
+           $(function() {
+             $( "#inDate" ).datepicker( { dateFormat: "yy-mm-dd" } );
+             $( "#outDate" ).datepicker( { dateFormat: "yy-mm-dd" } );
+           });
+
+          p
+          button#ajaxsend.ajaxsend(value=1) 출력
+          li#liDate 
+      .yj-savebar#yj-savebar
+          article#a1
+             button#pieSend.pieSend(value=2) 비율
+             #chart_div.chart_div
+
+          script(type='text/javascript' src='https://www.google.com/jsapi')
+          script(type='text/javascript' src='https://www.gstatic.com/charts/loader.js')
+          script(type='text/javascript').
+           var composite = {
+            inputDate:'',
+            outputDate:'',
+            country:'',
+            service:'',
+            okFlag : '1'
+           }
+           var arrResult = new Array();
+           var result;
+           var chartData;
+           var oneCountry = false;
+           var allCheckFlag = false;
+           var countryCheck = false;
+           var auto_uncheck=false;
+           var actionStyle=1;
+           composite.country = '';
+
+           /*
+            * allCheckFlag : 전체선택 플래그
+            * countryCheck : 하위국가 전체 플래그
+            * oneCountry : 하위국가 1개 플래그
+            * auto_uncheck : 전체선택 후 하위국가 전체 체크해제
+           */
+
+           /* 전체선택을 누른 경우--
+            * 1. 누른 경우 : 하위국가 모드 체크
+            * 2. 해제한 경우 : 전체/하위국가 관련 플래그 모두 해제
+            */
+           $("#country_all").click(function(){ 
+            composite.country = '';
+            if($("#country_all").prop("checked")){
+             $("input[name=country]:checkbox").prop("checked","checked");
+             allCheckFlag = true;
+             oneCountry = true;
+             countryCheck = true;
+            }else{
+             $("input[name=country]:checkbox").prop("checked", false);
+             allCheckFlag = false;
+             oneCountry = false;
+             countryCheck = false;
+            }
+           });
+
+           /* 하위국가 한개를 클릭할 경우
+            *
+            */           
+           $("input[name=country]").click(function(){
+             composite.country = '';
+             console.log( $( this ).val()  );
+                if(  this.checked ==true  ){
+                 oneCountry = true;
+                 auto_uncheck=false;
+                 console.log("하위 국가 클릭시:" + oneCountry );
+                }
+                else if(  this.checked ==false && allCheckFlag == true   ){
+                 oneCountry = false;
+                 countryCheck = false;
+                 auto_uncheck=true;
+                 $("#country_all").prop("checked", false) ;
+                 console.log("체크를 해제할경우:" + "oneCountry > "+ oneCountry + "allCheckFlag > "+allCheckFlag );
+                }
+
+            /* 클릭 한 후에 조회
+             *
+             */
+            $("input[name=country]").each(function(){
+                 if(  this.checked ==true  ){
+                   if( !allCheckFlag ){
+                      oneCountry = true;
+                      countryCheck = true;
+                   }
+                      auto_uncheck=false;
+                 }else
+                   if(  allCheckFlag ){
+                      oneCountry = false;
+                      countryCheck =false;
+                   }else
+                      countryCheck =false;
+
+             });
+             if(  oneCountry==true && countryCheck == true ) {
+                  allCheckFlag=true;
+                  $("#country_all").prop("checked", true);
+             }else if( allCheckFlag==true && oneCountry==true  ){
+                  $("#country_all").prop("checked", true);
+             }
+
+           });
+ 
+           var as = document.getElementById("ajaxsend")
+           $( "#pieSend").click( function(){
+               actionStyle=3;
+            composite.country = '';
+            composite.inputDate = document.getElementById("inDate").value;
+            composite.outputDate = document.getElementById("outDate").value;
+            composite.service = document.getElementById("service").value;
+           console.log("출력할 경우:" + "oneCountry > "+ oneCountry + "    allCheckFlag > "+allCheckFlag + "   countryCheck:" +countryCheck);
+
+            if( (oneCountry == false && allCheckFlag == false) || auto_uncheck==true)
+              alert("국가를 선택해주세요.");
+            else{
+                if( allCheckFlag==true && oneCountry==true ){
+                 composite.country = $("#country_all").val();
+                }else if( oneCountry==true && countryCheck == true  ){
+                  composite.country = $("#country_all").val();
+                }
+                else {
+                 $("input[name=country]").each(function(index){
+                  if( this.checked )
+                    composite.country += $( this ).val() +",";
+                 });
+                }
+
+             liDate.innerHTML = composite.inputDate;
+             sendAjax('http://203.236.86.149:8180/search/country', composite);
+            }
+            });
+
+
+           $( "#ajaxsend").click( function(){
+               actionStyle=1;
+            composite.country = '';
+            composite.inputDate = document.getElementById("inDate").value;
+            composite.outputDate = document.getElementById("outDate").value;
+            composite.service = document.getElementById("service").value;
+           console.log("출력할 경우:" + "oneCountry > "+ oneCountry + "    allCheckFlag > "+allCheckFlag + "   countryCheck:" +countryCheck);
+
+            if( (oneCountry == false && allCheckFlag == false) || auto_uncheck==true)
+              alert("국가를 선택해주세요.");
+            else{
+                if( allCheckFlag==true && oneCountry==true ){
+                 composite.country = $("#country_all").val();
+                }else if( oneCountry==true && countryCheck == true  ){
+                  composite.country = $("#country_all").val();
+                }
+                else {
+                 $("input[name=country]").each(function(index){
+                  if( this.checked )
+                    composite.country += $( this ).val() +",";
+                 });
+                }
+
+             liDate.innerHTML = composite.inputDate;
+             sendAjax('http://203.236.86.149:8180/search/country', composite);
+            }
+
+
+           });
+
+
+           function sendAjax(url, composite){
+            arrResult = new Array();
+            var zeroCnt = 0;
+            var data = {inDate:composite.inputDate, outDate:composite.outputDate, okFlag:composite.okFlag, country:composite.country, service:composite.service};
+            data = JSON.stringify(data);
+            liDate.innerHTML = data;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url);
+            xhr.setRequestHeader('Content-type', "application/json");
+            xhr.send(data);
+            xhr.addEventListener('load', function(){
+             result = JSON.parse(xhr.responseText);
+             console.log(xhr.responseText);
+             var i=0
+             zeroCnt = i;
+             for(i=0; i<result.length; i += 1){
+
+               if( parseInt(result[i].count) == 0 ){
+                 if(zeroCnt >0){
+                    //zeroCnt = zeroCnt -1;
+                    continue;
+                 }
+               }
+               else{
+                   arrResult[zeroCnt] = new Array(2);
+                   zeroCnt ++;
+               }
+             }
+
+
+             chartData = "['country','count']";
+             zeroCnt = 0;
+             for(i=0; i<result.length; i++){
+               console.log( "zeroCnt : "+ zeroCnt + "i" + i );
+               if( parseInt(result[i].count) == 0 ){
+                   if(zeroCnt >0){
+                     //zeroCnt = zeroCnt -1;
+                     continue;
+                   }
+               }
+               else {
+                arrResult[zeroCnt][0] = result[i].country_num;
+                arrResult[zeroCnt][1] = parseInt(result[i].count);
+                chartData += arrResult[zeroCnt];
+                zeroCnt ++;
+              }
+             }
+             console.log( result);
+             console.log( arrResult);
+             google.charts.load('current', {'packages':['corechart']});
+             google.charts.setOnLoadCallback(drawChart);
+            });
+      
+           }
+
+           function drawChart(){		
+            var data;
+            var chart;
+            arrResult.unshift(['Category','count']);
+            data = google.visualization.arrayToDataTable(  arrResult
+             );
+            console.log(arrResult);
+            var options = {
+             title: 'CATEGORY CHART',
+             width : 640,
+             height : 400,
+             hAxis: {title: 'category', titleTextStyle: {color:'red'}}
+            };
+            if(actionStyle==3)
+             chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+            else 
+             chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+           }
+
+      #yj-footer
+        p Copyright
