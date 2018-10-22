@@ -44,39 +44,3 @@ rm country/count ; rm category/count ; rm daily/count
 merge_query_logCounting.sh argv[1]
 db_manage.php : db에 입력
 
-
-일별 데이터 넣기
-collect_log_day.sh : 각 서버에 log파일 전날치만 가지고 오기
-auto_increase_day.php : month별로 추가 하는 것을 nowdate= 2017??01 일 경우에만 추가
-get_query_day.php / get_country2_day.php / get_category_day.php / get_membrCd_day.php
-merge_query_logCounting_month.sh 
-db_manage.php
-
-
-
--------------------------------------
-get_membrCd_somefile.php : 파일명 입력해서 membrCd 조회
-
-
-2018-01-17 ver 실행방법
-ex). 11월이라면 7월이라면 ./collect_log_test.sh만 7 이고 나머지는 07 이런식으로 입력
-
-mkdir membrCd
-nohup ./collect_log_test.sh 11 ; nohup ./get_query.php 11 ; nohup ./get_country3.php 11 ; nohup ./get_category.php 11 ; nohup ./get_membrCd.php 11 ; nohup ./merge_query_logCounting.sh 11 ; nohup ./db_manage.php ;  mv membrCd membrCd_11 ; mv nohup.out  nohup_log_201711
-
-
--------------------------------------
--------------------------------------
--------------------------------------
--------------------------------------
--------------------------------------
-
-2018-02-02
-./get_country3.php -> ./get_country4.php
-
-
-get_country4에서는 서비스+멤버코드 둘다 가져옵니다. get_membrCd.php 쓰지
-마시고 get_country4로 한번에 돌리시면 됩니다. > 해당 관련해서 한번에 스크립트
-돌리는 것
-
-nohup ./collect_log_test.sh 11 ; nohup ./get_query.php 11 ; nohup ./get_category.php 11 ; nohup ./start_all.sh ; 
