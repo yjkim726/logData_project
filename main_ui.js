@@ -234,18 +234,18 @@ function total_servie_insert( totalDate,  inputDate, outputDate , req, res){
 		console.log("service"+service[1]);	
 		console.log("service"+service.length);	
 		if(service[0]!="ALL"){
-		//service 설정
-		count = service.length -1;
-		countSize = count;
-		console.log("countSize: "+countSize);
-		allService += "(";
-		for(var i=0; i<service.length-1; i++){
-			allService += "'"+service[i]+"'";	
-			if((service.length -2)!=i)
-				allService += ",";
+			//service 설정
+			count = service.length -1;
+			countSize = count;
+			console.log("countSize: "+countSize);
+			allService += "(";
+			for(var i=0; i<service.length-1; i++){
+				allService += "'"+service[i]+"'";	
+				if((service.length -2)!=i)
+					allService += ",";
 			}
 			allService += ")";
-		console.log("aaaaaaaaaa : "+allService);
+			console.log("aaaaaaaaaa : "+allService);
 		}
 
 		if(service=="ALL"){
