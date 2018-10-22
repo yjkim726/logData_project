@@ -1,0 +1,695 @@
+doctype html
+html(lang='ko')
+  head
+    meta(charset='utf-8')
+    title CSS Tutorial | Layout
+    style.
+      #yj-container {
+      width: 940px;
+      margin: 0px auto;
+      padding: 20px;
+      border: 1px solid #bcbcbc;
+      }
+      #yj-header {
+      height: 30px;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #bcbcbc;
+      }
+      #yj-content {
+      height: 630px;
+      width: 200px;
+      padding: 20px;
+      margin-bottom: 20px;
+      float: left;
+      border: 1px solid #bcbcbc;
+      }
+      #a1 {
+      width: 682px;
+      height: 407px;
+      margin: 0px auto;
+      }
+      #yj-sidebar {
+      width: 640px;
+      height: 200px;
+      padding: 20px;
+      margin-bottom: 20px;
+      float: right;
+      border: 1px solid #bcbcbc;
+      }
+      #yj-savebar {
+      width: 682px;
+      height: 407px;
+      margin: 0px auto;
+      float: right;
+      border: 1px solid #bcbcbc;
+      }
+
+      #yj-footer {
+      clear: both;
+      padding: 20px;
+      border: 1px solid #bcbcbc;
+      }
+      h1{
+      clear: both;
+      padding: 0px;
+      height: 30px;
+      margin: 0px auto;
+      }
+
+      chart_div{
+      width: auto;
+      height: auto;
+      margin: 0px auto;
+      }
+
+      .sidebarmenu ul{
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      font: bold 13px Verdana;
+      width: 180px; /* Main Menu Item widths */
+      border-bottom: 1px solid #ccc;
+      }
+
+      .sidebarmenu ul li{
+      position: relative;
+      }
+      .sidebarmenu ul li a{
+      display: block;
+      overflow: auto; /*force hasLayout in IE7 */
+      color: white;
+      text-decoration: none;
+      padding: 6px;
+      border-bottom: 1px solid #778;
+      border-right: 1px solid #778;
+      }
+      .sidebarmenu ul li a:link, .sidebarmenu ul li a:visited, .sidebarmenu ul li a:active{
+      background-color: #012D58; /*background of tabs (default state)*/
+      }
+
+      .sidebarmenu ul li a:visited{
+      color: white;
+      }
+
+      .sidebarmenu ul li a:hover{
+      background-color: black;
+      }
+
+      .sidebarmenu ul li ul{
+      position: absolute;
+      width: 170px; /*Sub Menu Items width */
+      top: 0;
+      visibility: hidden;
+      }
+
+      .sidebarmenu a.subfolderstyle{
+      background: url(right.gif) no-repeat 97% 50%;
+      }
+
+      .ddd {
+      width: 100px;
+      height: 30px;
+      margin: 0px;
+      }
+
+
+
+
+  body
+    #yj-container.yj-container
+      #yj-header
+       h1 Search Log Chart
+      #yj-content
+       .sidebarmenu
+        ul#sidebarmenu
+         li
+          a(href='/search/category' id='category') 카테고리
+         li
+          a(href='/search/country') 국가
+         li
+          a(href='/search/daily') 일간
+          ul
+           li
+            a(href='#') Sub Item 1.1
+           li
+            a(href='#') Sub Item 1.2
+         li
+          a(href='/search/topmember') 상위이용자
+         li
+          a(href='/search/server') 서버
+         li
+          a(href='/search/service') 서비스
+
+
+
+
+      #yj-sidebar
+        h2 Daily 조건
+        ul
+          |설정일
+          input#inDate.inDate(type='text', value='2017-02-01')
+          | 
+          | ~
+          | 
+          input#outDate.outDate(type='text', value='2017-02-21')
+          p
+          input(type='checkbox', value='ALL', id='service_all' checked="checked" )
+          | 서비스전체
+          | 
+          input(type='checkbox', name='service', value='WT', id='WT'  )
+          | WINTELIPS
+          input(type='checkbox', name='service', value='WO', id='WO'  )
+          | WIPSON
+          input(type='checkbox', name='service', value='WG', id='WG'  )
+          | WIPSGLOBALS
+          p  
+          input(type='checkbox', name='service', value='WC', id='WC'  )
+          | WIPSGLOBALS_CHINA
+          input(type='checkbox', name='service', value='SK', id='SK'  )
+          | SK_HYNIX
+          p
+          | 출력타입 : 
+          input(type='checkbox', name='datetype', value='t_daily', id='t_daily' )
+          | 일간
+          input(type='checkbox', name='datetype', value='t_weekly', id='t_weekly'  checked="checked"  )
+          | 주간
+          input(type='checkbox', name='datetype', value='t_monthly', id='t_monthly' )
+          | 월별
+          input(type='checkbox', name='datetype', value='t_service', id='t_service' )
+          | 서비스별
+          p
+          button#ajaxsend.ajaxsend(value=1) 출력
+          li#liDate
+      .yj-savebar#yj-savebar
+          article#a1
+           button#pieSend.pieSend(value=2) 막대형
+           #chart_div.chart_div
+
+          link(rel='stylesheet', href='http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css', type='text/css')
+          script(type='text/javascript' src='https://www.google.com/jsapi')
+          script(type='text/javascript' src='https://www.gstatic.com/charts/loader.js')
+          script(src='https://code.jquery.com/jquery-1.12.4.js')
+          script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+          script.
+           var actionStyle=1;
+           var arrName = new Array();
+           var mainName = new Array();
+           var arrCount = 1;
+
+           var arrResult = new Array();
+           var monthArrResult = new Array();
+           var weekArrResult = new Array();
+           var serviceArrResult = new Array();
+           var result;
+           var chartData;
+
+           //upcnt 서비스전체 클릭  downcnt 전체 클릭안함
+           var upcnt=0;
+           var downcnt=3;
+           var composite = {
+            inputDate:'',
+            outputDate:'',
+            service:'',
+            datetype:'',
+            okFlag : '1'
+           }
+
+           $(function() {
+             $( "#inDate" ).datepicker( { dateFormat: "yy-mm-dd" } );
+             $( "#outDate" ).datepicker( { dateFormat: "yy-mm-dd" } );
+           });
+
+            //초기값설정
+            if( $("#service_all").prop("checked")){
+             $("input[name=service]:checkbox").prop("checked","checked");
+             upcnt=5;
+             downcnt=0;
+            }
+
+           $( "#service_all").click(function(){
+            if( $("#service_all").prop("checked")){
+             $("input[name=service]:checkbox").prop("checked","checked");
+             upcnt=5;
+             downcnt=0;
+            }else{
+             $("input[name=service]:checkbox").prop("checked",false);
+             downcnt=5;
+             upcnt=0;
+            }
+           });
+
+           $("input[name=service]").click(function(){
+             console.log("-------------------------count"+upcnt+"   down:"+downcnt);
+              if( this.checked == true ){
+                  upcnt+=1;
+                  downcnt-=1;
+                  console.log("upcount"+upcnt);
+              }else if( this.checked == false  ){
+                 downcnt+=1;
+                 upcnt-=1;
+                console.log("downcount"+downcnt);
+              }
+
+            $("input[name=service]").each(function(){
+              console.log("----------------------allcount"+upcnt +"   down:"+downcnt);
+             if(upcnt==5){
+              $("#service_all").prop("checked", "checked");
+             }else if( upcnt<5 || downcnt==5 ){
+              $("#service_all").prop("checked", false);
+             }
+            });
+
+           });
+
+           $( "#ajaxsend" ).click( function(){
+             actionButton(  );
+             actionStyle=2;
+
+             if( downcnt==5 || upcnt==0)
+               alert("서비스를 선택해주세요.");
+
+           });
+
+           $( "#pieSend").click( function(){
+             actionButton(  );
+             actionStyle=3;
+          
+           });
+
+           $("input[name=datetype]:checkbox").click( function(){
+              composite.datetype = $( this ).val();
+              if( composite.datetype == "t_daily"  ){
+                $( "#t_service" ).prop("checked",false);
+                $( "#t_monthly" ).prop("checked",false);
+                $( "#t_weekly" ).prop("checked",false);
+              }else if(   composite.datetype == "t_service"   ){
+                $( "#t_daily" ).prop("checked",false);
+                $( "#t_monthly" ).prop("checked",false);
+                $( "#t_weekly" ).prop("checked",false);
+              }else if(   composite.datetype == "t_monthly"   ){
+                $( "#t_daily" ).prop("checked",false);
+                $( "#t_service" ).prop("checked",false);
+                $( "#t_weekly" ).prop("checked",false);
+              }else if(   composite.datetype == "t_weekly"   ){
+                $( "#t_daily" ).prop("checked",false);
+                $( "#t_service" ).prop("checked",false);
+                $( "#t_monthly" ).prop("checked",false);
+              }else if ( composite.datetype == null  )
+                alert("출력타입을 선택해주세요.");
+
+           });
+
+           function actionButton(  ){
+            composite.service='';
+            composite.inputDate = document.getElementById("inDate").value;
+            composite.outputDate = document.getElementById("outDate").value;
+            //composite.service = document.getElementById("service").value;
+            composite.okFlag = 1;
+            if( upcnt==5 ){
+               composite.service += $("#service_all").val();
+            }else if( upcnt<5 || downcnt==5 ){
+              $("input[name=service]").each(function(index){
+               if( this.checked ){
+                 composite.service += $( this ).val() +",";
+                 }
+              });
+            }
+            liDate.innerHTML = composite.inputDate;
+            sendAjax('http://203.236.86.149:8180/search/daily', composite);
+           }
+
+
+           function sendAjax(url, composite){
+            //초기화
+            //Array lastDate = new Array();
+            var lastDate = [ '31','28','31','30','31','30','31','31','30','31','30','31' ];
+            arrResult = new Array();
+            monthArrResult = new Array();
+            weekArrResult = new Array();
+            serviceArrResult = new Array();
+
+            arrName = new Array();
+            mainName = new Array();
+            arrCount = 1;
+            //3. 월별 서비스용
+            var lastmonth="";
+            var allMonth=0;
+            var arrCnt= 0 ;
+
+            var data = {inDate:composite.inputDate, outDate:composite.outputDate, okFlag:composite.okFlag, service:composite.service};
+            data = JSON.stringify(data);
+            liDate.innerHTML = data;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url);
+            xhr.setRequestHeader('Content-type', "application/json");
+            xhr.send(data);
+            xhr.addEventListener('load', function(){
+             result = JSON.parse(xhr.responseText);
+             console.log(xhr.responseText);
+             console.log(result);
+             if(result[1].serviceWT != null ){
+                 arrCount += 1;
+                 arrName.push("WT");
+             }
+             if(result[1].serviceWO != null ){
+                 arrCount += 1;
+                 arrName.push("WO");
+             }
+             if(result[1].serviceWG != null){
+                 arrCount += 1;
+                 arrName.push("WG");
+             }
+             if(result[1].serviceWC != null){
+                 arrCount += 1;
+                 arrName.push("WC");
+             }
+             if(result[1].serviceSK != null){
+                 arrCount += 1;
+                 arrName.push("SK");
+             }
+
+             //[1.일간] 배열 초기화 및 x축 이름 설정
+             //[1.일간]  [  "Date", "WT", "WO", "WG", "WC", "SK"  ]
+             mainName[0] = new Array(arrCount);
+             mainName[0][0] = "Date";
+             for(var arr=0; arr<arrName.length; arr++)
+               mainName[0][arr+1] = arrName[arr];
+
+             for(var i=0; i<result.length; i += 1){
+              console.log("result"+"["+i+"]"+ result[i]["dailyDate"] );
+              //log 출력 :  result[i] : 2017-09-25 
+              arrResult[i] = new Array(arrCount);
+             }
+
+             var woSum =0, wgSum=0, wtSum=0, wcSum=0, skSum=0;
+
+
+             for(var i=0; i<result.length; i++){
+              arrResult[i][0] = result[i].dailyDate;
+              for( var j=1; j<arrCount; j++){
+               //console.log("WC TEST3"+ arrResult[i][j-1]  );
+               if( result[i].serviceWT != null && j==1 ){
+                 arrResult[i][j] = parseInt(result[i].serviceWT);
+                 wtSum += arrResult[i][j];
+               }
+               // WO WC SK 클릭시 SK순서 일 때, WO가 또 들어 갈 수 있으므로 WO는 마지막 i 일경우까지 다 체크
+               else if( result[i].serviceWO != null && ( arrResult[i][j-1]!= parseInt(result[i].serviceWO) ) && ( arrResult[i][j-2]!= parseInt(result[i].serviceWO)) && ( arrResult[i][j-3]!= parseInt(result[i].serviceWO))  ){
+                 arrResult[i][j] = parseInt(result[i].serviceWO);
+                 woSum += arrResult[i][j];
+               }
+               else if( result[i].serviceWG != null && ( arrResult[i][j-1]!= parseInt(result[i].serviceWG) )  && ( arrResult[i][j-2]!= parseInt(result[i].serviceWG))   ){
+                 arrResult[i][j] = parseInt(result[i].serviceWG);
+                 wgSum += arrResult[i][j];
+              //chartData += arrResult[i];
+               }
+               else if( result[i].serviceWC != null && ( arrResult[i][j-1]!= parseInt(result[i].serviceWC) )  ){
+                 arrResult[i][j] = parseInt(result[i].serviceWC);
+                 wcSum += arrResult[i][j];
+               }
+               else if( result[i].serviceSK != null && arrResult[i][j]==null ){
+                 arrResult[i][j] = parseInt(result[i].serviceSK);
+                 skSum += arrResult[i][j];
+               }
+               
+              }
+             }
+
+
+             //4.주간별 합계 대입
+
+
+             var wk_monthCnt = 0;
+             var dateName = ["일","월","화","수","목","금","토"];
+             var weekendCnt = 0; 
+             var weekSumCnt = 0;
+             var year = 0, month=0, startDate=0, startDateSum=0; 
+              
+             // lastDateCnt 1월부터 n-1월까지 currDateCnt n월까지
+             var lastDateCnt = 0;
+             var currDateCnt = 0;
+
+             var resultLgn = result.length-1;
+               //console.log("year: " + arrResult[i][0].substring(0,4) );
+               //console.log("month: " + arrResult[i][0].substring(5,7) );
+               //console.log("date: " + arrResult[i][0].substring(8,10) );
+
+             year = arrResult[resultLgn][0].substring(0,4);
+             month = arrResult[resultLgn][0].substring(5,7);
+             startDate = parseInt(arrResult[0][0].substring(8,10));
+             wk_monthCnt = arrResult[resultLgn][0].substring(6,7);
+             wk_dateCnt = arrResult[resultLgn][0].substring(8,10);
+
+               // ex. 9월(wk_monthCnt) 1..2..30 (wk_dateCnt) ||  마지막 날짜 지정이 31일로 안끝날 수 있으므로
+
+             for( var j=0 ; j < wk_monthCnt-1 ; j++){
+                // 1월부터 해당달까지
+                lastDateCnt += parseInt(lastDate[j]);
+                console.log("lastDate"+ parseInt(lastDate[j]) );
+                    
+             }
+
+             //해당달의 일까지 더함 ( currDateCnt ) 해당달의 시작 ( lastDateCnt )            
+             currDateCnt = lastDateCnt +  parseInt(wk_dateCnt);
+
+             //두번째달부터 수요일등 선택했을 때
+             startDateSum = lastDateCnt +  parseInt(startDate);
+             console.log("최종일  "+currDateCnt);
+             console.log("2월시작달  "+ startDateSum);
+             console.log("2월시작달  "+ arrResult[0][startDateSum]);
+             console.log("2월시작달  "+ arrResult[0][0]);
+
+
+             for( var r=lastDateCnt ; r <= currDateCnt ; r++  ){
+               if(dateName[ (r-1)%7 ] =="일"){
+                console.log("일요일인 날은?"+r);
+                weekendCnt++;
+               }
+              }
+
+
+             for(var i=0; i< weekendCnt; i++){
+              // 1주  WG WT WO WC SK ( weekendCnt 가 n주 )
+             //..n주  WG WT WO WC SK ( arrCount 가 서비스 )
+               weekArrResult[i] = new Array(arrCount);
+             }
+
+             console.log("weekendCnt" + weekendCnt);
+
+
+           var wc=0;
+           var  startDateCnt=startDateSum;
+           for(var cnt=1; cnt < arrCount ; cnt++){
+             // 서비스별로 돌아갑니다.
+             console.log("--------------------------------------------------------------------------------");
+             //for( var r=0 ; r < currDateCnt ; r++  )
+             for( var r= 0 ; r < (currDateCnt-startDateSum+1) ; r++  ){
+               console.log("한달은 몇일?" + startDateCnt);
+               weekSumCnt = 0;
+               console.log("r은? "+r+ "lastDateCnt는?"+lastDateCnt + " currDateCnt는?"+currDateCnt);
+               console.log( "startDate 요일? " + dateName[ (startDateCnt-1 )%7 ]  );
+               console.log( "startDate-1" + startDateCnt );
+
+               //if( ((dateName[ (r-1)%7 ] =="일" ) )  )
+               if( ((dateName[ (startDateCnt-1)%7 ] =="일" ) )  ){
+                       // N달의 시작일부터 X일까지 "일"요일이 덧셈의 스타트
+                   console.log( "마지막일-선택일 " + (currDateCnt-startDateSum)  + " r은?"+r  );
+                   console.log( "마지막주 남은요일 " + (currDateCnt-startDateCnt)  + " r은?"+r  );
+                   if( ( r+6 <= (currDateCnt-startDateSum+1))  ){
+                    for(var j=r ; j<=r+6 ; j++){
+                       console.log( "if문 arrResult["+j+"]"+" ["+cnt+"] " +arrResult[j][cnt]  );
+                       weekSumCnt  +=  arrResult[j][cnt];
+                       console.log("일요일 이후 1주 구하기 위한 덧셈 로직");
+                      }
+                    }else{
+                       
+                     for(var j=r ; j<r+(currDateCnt-startDateCnt+1); j++){
+                       console.log( "else문 arrResult["+j+"]"+" ["+cnt+"] " +arrResult[j][cnt]  );
+                       weekSumCnt  +=  arrResult[j][cnt];
+                       console.log("일요일 이후 마지막주 구하기 위한 덧셈 로직");
+                      } 
+                    }
+                   console.log("주간합계"+weekSumCnt);
+                   console.log("들어가나 확인1");
+                   if( wc<weekendCnt){
+                       console.log("1주차 합계를 더해서 weekArrResult에 넣는다");
+                       console.log( "weekArrResult["+wc+"]"+" ["+cnt+"] " );
+                       weekArrResult[wc][cnt] = weekSumCnt;
+                       if( weekArrResult[wc][0] == null  )
+                           weekArrResult[wc][0] = year+"-"+ month +"-"+ (wc+1)+"W" ;
+                       console.log( "weekArrResult["+wc+"]"+" ["+cnt+"] " +weekArrResult[wc][cnt]  );
+                       wc++;
+                   }
+               }
+
+                  if(startDateCnt <=currDateCnt)
+                      startDateCnt++;
+             console.log("--------------------------------------------------------------------------------");
+             }
+                       startDateCnt=startDateSum;
+                       wc=0;
+           }
+             
+             
+              console.log( weekArrResult); 
+
+
+             //2.서비스별 합계 대입
+             for(var s=0; s<arrName.length; s++){
+               serviceArrResult[s] = new Array();
+               serviceArrResult[s][0] = arrName[s];
+               if( serviceArrResult[s][0]=="WG" )
+                   serviceArrResult[s][1] = wgSum;
+               else if( serviceArrResult[s][0]=="WT" )
+                   serviceArrResult[s][1] = wtSum;
+               else if( serviceArrResult[s][0]=="WO" )
+                   serviceArrResult[s][1] = woSum;
+               else if( serviceArrResult[s][0]=="WC" )
+                   serviceArrResult[s][1] = wcSum;
+               else if( serviceArrResult[s][0]=="SK" )
+                   serviceArrResult[s][1] = skSum;
+             }
+
+
+             //3.월별 합계 대입
+             // 월별 대입 초기화
+             for(var i=0; i<result.length; i += 1){
+              //monthArrResult[i] = new Array(arrCount-1);
+              if(lastmonth==""){
+                lastmonth=result[i].month;
+              }
+              if(!(lastmonth==result[i].month)){
+                allMonth++;
+                lastmonth=result[i].month;
+               console.log("result: "+ result[i].month);
+              }
+               console.log("allMonth: "+ allMonth);
+             }
+
+
+             //var tmp_arrCount = arrCount-1;
+             var tmp_arrCount = arrCount;
+
+             for( var j=0; j<= allMonth ; j++){
+              monthArrResult[j] = new Array(tmp_arrCount);
+             }
+
+
+             for( var i=0 ; i<result.length; i++){
+              //result[i].dates가 30, 28, 31 등 lastDate = { 31, 28, 30, ..} 에 포함되어 있거나
+              //마지막 달이 30일로 안끝날 경우
+              if( ( result[i].dates == lastDate[result[i].monthCnt] ) || ( result[i].dates <= lastDate[result[i].monthCnt] && i==(result.length-1)  )  ){
+               var arrCntCheck = 0;
+
+               console.log("WC TEST"+ parseInt(result[i].MonthCountWC));
+               
+               //for( var j=0 ; j<tmp_arrCount ; j++  ){ 
+               for( var j=1 ; j<tmp_arrCount ; j++  ){ 
+                //console.log("WC TEST2"+ monthArrResult[arrCnt][j-1]);
+                monthArrResult[arrCnt][0] = result[i].month;
+                if( result[i].serviceWT != null && j==1 ){
+                  monthArrResult[arrCnt][j] = parseInt(result[i].MonthCountWT);
+                  if(arrCntCheck<= tmp_arrCount)
+                   arrCntCheck++;
+                }
+                else if( result[i].serviceWO != null && ( monthArrResult[arrCnt][j-1]!= parseInt(result[i].MonthCountWO) ) && ( monthArrResult[arrCnt][j-2]!= parseInt(result[i].MonthCountWO)) && ( monthArrResult[arrCnt][j-3]!= parseInt(result[i].MonthCountWO))  ){
+                  monthArrResult[arrCnt][j] = parseInt(result[i].MonthCountWO);
+                  if(arrCntCheck<= tmp_arrCount)
+                   arrCntCheck++;
+                }
+                else if( result[i].serviceWG != null && ( monthArrResult[arrCnt][j-1]!= parseInt(result[i].MonthCountWG) )  && ( monthArrResult[arrCnt][j-2]!= parseInt(result[i].MonthCountWG))   ){
+                  monthArrResult[arrCnt][j] = parseInt(result[i].MonthCountWG);
+                  if(arrCntCheck<= tmp_arrCount)
+                   arrCntCheck++;
+                }
+                else if( result[i].serviceWC != null && ( monthArrResult[arrCnt][j-1]!= parseInt(result[i].MonthCountWC) )  ){
+                  monthArrResult[arrCnt][j] = parseInt(result[i].MonthCountWC);
+                  if(arrCntCheck<= tmp_arrCount)
+                   arrCntCheck++;
+                }
+                else if( result[i].serviceSK != null && monthArrResult[arrCnt][j]==null ){
+                  monthArrResult[arrCnt][j] = parseInt(result[i].MonthCountSK);
+                  if(arrCntCheck<= tmp_arrCount)
+                   arrCntCheck++;
+                }
+
+                  //console.log("arrCntCheck : "+ arrCntCheck);
+                  //console.log("arrCount : "+ arrCount);
+                  //console.log("tmp_arrCount : "+ tmp_arrCount);
+                  //console.log("allMonth : "+ allMonth);
+                  //console.log("monthArrResult : "+ monthArrResult[arrCnt][j]+" arrCnt : " + arrCnt + " j : " +j   );
+
+                if( (arrCnt<=allMonth ) && (arrCntCheck== tmp_arrCount-1) ) {
+                   
+                   arrCnt++;
+                }
+
+               }
+              }
+             }
+
+
+
+             console.log( serviceArrResult  );
+
+             console.log(arrResult);
+             console.log(monthArrResult);
+             console.log(weekArrResult); 
+             google.charts.load('current', {'packages':['corechart']});
+             google.charts.setOnLoadCallback(drawChart);
+            });
+
+           }
+
+           function drawChart(){
+            var data;
+            var chart ='';
+            if(composite.datetype == "t_daily"){
+             arrResult.unshift( mainName[0] );
+             data = google.visualization.arrayToDataTable(  arrResult );
+             chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+            }else if( composite.datetype == "t_service"  ){
+             serviceArrResult.unshift( [ 'service', 'count' ] );
+             data = google.visualization.arrayToDataTable(  serviceArrResult );
+             chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+            }else if ( composite.datetype == "t_monthly" ) {
+             monthArrResult.unshift( mainName[0] );
+             data = google.visualization.arrayToDataTable(  monthArrResult );
+             chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+
+            }else if ( composite.datetype == "t_weekly" ) {
+             weekArrResult.unshift( mainName[0] );
+             data = google.visualization.arrayToDataTable(  weekArrResult );
+             chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+
+            }
+
+            //if(actionStyle==2)
+              //chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+            if(actionStyle==3)
+             chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+
+             var a= [
+             ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
+             ['2004/05',  165,      938,         522,             998,           450,      614.6],
+             ['2005/06',  135,      1120,        599,             1268,          288,      682],
+             ['2006/07',  157,      1167,        587,             807,           397,      623],
+             ['2007/08',  139,      1110,        615,             968,           215,      609.4],
+             ['2008/09',  136,      691,         629,             1026,          366,      569.6]
+             ]
+            console.log(arrResult);
+            console.log(monthArrResult);
+            console.log(weekArrResult);
+            var options = {
+             title: 'DAILY CHART',
+             chartArea : {width:'70%',height:'70%'},
+             width : 640,
+             height : 400,
+             role : 'annotation',
+             hAxis: {title: 'Year', titleTextStyle: {color:'red'}}
+            };
+            chart.draw(data, options);
+           }
+
+      #yj-footer
+        p Copyright
